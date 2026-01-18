@@ -111,3 +111,79 @@
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.9rem;
 }
+
+
+/* Title */
+
+.main-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 3rem;
+  /* Large and bold */
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: -1px;
+  /* Tighter letter spacing for a modern look */
+
+  /* Gradient Text Effect */
+  background: linear-gradient(135deg, var(--accent-teal) 0%, #ffffff 50%, var(--accent-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Subtle drop shadow to make it pop against the dark background */
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+}
+
+/* Optional: Add a small subtitle or decorative line under the H1 */
+.main-title::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 4px;
+  background: var(--accent-teal);
+  margin: 0.5rem auto;
+  border-radius: 2px;
+}
+
+/* Footer */
+
+.custom-link {
+  color: var(--accent-teal);
+  text-decoration: none;
+  /* Removes the underline */
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.custom-link:hover {
+  color: var(--text-soft);
+  border-bottom: 1px solid var(--accent-teal);
+  text-shadow: 0 0 8px var(--accent-teal);
+}
+
+.footer-text {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1rem;
+  color: var(--text-soft);
+  /* Uses your soft white variable */
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  /* Optional: makes the footer look more subtle */
+}
+
+.footer-text a {
+  color: inherit;
+  /* Makes link color same as paragraph */
+  text-decoration: none;
+  /* Removes the underline */
+  cursor: pointer;
+}
+
+.footer-text a:hover {
+  color: var(--accent-teal);
+  /* Optional: shows teal only when hovering */
+  text-decoration: underline;
+}

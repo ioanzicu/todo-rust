@@ -1,0 +1,56 @@
+.header {
+  background: linear-gradient(to bottom, var(--item-bg), #121b36);
+  padding: 1.2rem;
+  border-bottom: 3px solid var(--accent-teal);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+  /* Centers the stats container in the middle of the header */
+  display: flex;
+  justify-content: center;
+}
+
+.stats-container {
+  display: flex;
+  gap: 4rem;
+  /* Adds nice space between the two stats */
+  align-items: center;
+}
+
+/* The Label Text (e.g., "Completed:") */
+.stats-container p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.6);
+  /* Muted white for label */
+  margin: 0;
+
+  /* Stacks the label on top of the number */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* The Numbers (The <span> tags) */
+.stats-container span {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-soft);
+}
+
+/* Specific styling for the numbers to match your theme colors */
+#completeNum {
+  color: var(--accent-teal);
+  text-shadow: 0 0 20px rgba(77, 182, 172, 0.4);
+  /* Glowing Teal */
+}
+
+#pendingNum {
+  color: var(--text-main);
+  /* Your Rose/Red color */
+  text-shadow: 0 0 20px rgba(233, 69, 96, 0.4);
+  /* Glowing Red */
+}
