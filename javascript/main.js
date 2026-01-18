@@ -1,129 +1,84 @@
-function renderItems(items, processType, elementId, processFunction) {
-    const container = document.getElementById(elementId);
-    let html = "<div>";
+function renderItems(items, action, containerId, handler) {
+      const container = document.getElementById(containerId);
+      let html = "";
 
-    for (let i = 0; i < items.length; i++) {
-        const title = items[i].title;
-        const buttonId = `${processType}-${i}`;
-
+      items.forEach((item, index) => {
         html += `
-          <div>
-            <p>${title}</p>
+          <div class="itemContainer">
+            <p>${item.title}</p>
             <button
-              id="${buttonId}"
-              data-title="${title}">
-              ${processType}
+              class="actionButton"
+              data-title="${item.title}"
+              id="${action}-${index}">
+              ${action}
             </button>
           </div>
         `;
-    }
+      });
 
-    html += "</div>";
-    container.innerHTML = html;
+      container.innerHTML = html;
 
-    for (let i = 0; i < items.length; i++) {
+      items.forEach((_, index) => {
         document
-            .getElementById(`${processType}-${i}`)
-            .addEventListener("click", processFunction);
+          .getElementById(`${action}-${index}`)
+          .addEventListener("click", handler);
+      });
     }
-}
 
-/* =======================
-   API
-======================= */
+    function apiCall(url, method, callback) {
+      const xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
 
-function apiCall(url, method, onDone) {
-    const xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    xhr.onreadystatechange = function () {
+      xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            if (onDone) {
-                onDone(JSON.parse(xhr.responseText));
-            }
+          if (callback) {
+            callback(JSON.parse(xhr.responseText));
+          }
         }
-    };
+      };
 
-    xhr.open(method, url);
-    xhr.setRequestHeader("content-type", "application/json");
-    xhr.setRequestHeader("user-token", "token");
+      xhr.open(method, url);
+      xhr.setRequestHeader("content-type", "application/json");
+      xhr.setRequestHeader("user-token", "token");
+      return xhr;
+    }
 
-    return xhr;
-}
+    function editItem() {
+      const title = this.dataset.title;
+      const call = apiCall("/v1/item/edit", "POST", getItems);
+      call.send(JSON.stringify({ title, status: "DONE" }));
+    }
 
-/* =======================
-   Actions
-======================= */
+    function deleteItem() {
+      const title = this.dataset.title;
+      const call = apiCall("/v1/item/delete", "POST", getItems);
+      call.send(JSON.stringify({ title, status: "DONE" }));
+    }
 
-function editItem() {
-    const title = this.dataset.title;
+    function getItems() {
+      const call = apiCall("/v1/item/get", "GET", data => {
+        renderItems(data.pending_items, "edit", "pendingItems", editItem);
+        renderItems(data.done_items, "delete", "doneItems", deleteItem);
+      });
+      call.send();
+    }
 
-    const call = apiCall("/v1/item/edit", "POST", getItems);
-    call.send(JSON.stringify({
-        title: title,
-        status: "DONE"
-    }));
-}
+    function createItem() {
+      const input = document.getElementById("name");
+      const title = input.value.trim();
+      if (!title) return;
 
-function deleteItem() {
-    const title = this.dataset.title;
-
-    const call = apiCall("/v1/item/delete", "POST", getItems);
-    call.send(JSON.stringify({
-        title: title
-    }));
-}
-
-/* =======================
-   Fetch & Render
-======================= */
-
-function getItems() {
-    const call = apiCall("/v1/item/get", "GET", function (data) {
-        renderItems(
-            data.pending_items,
-            "edit",
-            "pendingItems",
-            editItem
-        );
-
-        renderItems(
-            data.done_items,
-            "delete",
-            "doneItems",
-            deleteItem
-        );
-    });
-
-    call.send();
-}
-
-/* =======================
-   Create
-======================= */
-
-document
-    .getElementById("create-button")
-    .addEventListener("click", createItem);
-
-function createItem() {
-    const input = document.getElementById("name");
-    const title = input.value.trim();
-
-    if (!title) return;
-
-    const call = apiCall(
+      const call = apiCall(
         "/v1/item/create/" + encodeURIComponent(title),
         "POST",
         getItems
-    );
+      );
+      call.send();
+      input.value = "";
+    }
 
-    call.send();
-    input.value = "";
-}
+    document
+      .getElementById("create-button")
+      .addEventListener("click", createItem);
 
-/* =======================
-   Initial Load
-======================= */
-
-getItems();
+    getItems();
