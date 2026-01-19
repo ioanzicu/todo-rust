@@ -32,7 +32,7 @@ An amazing to-do web app in Rust using Actix Framework!
 - `http://127.0.0.1:8000/`
 - `http://127.0.0.1:8000/v1/item/get`
 
-![HTML templates version](image-v1.png)
+![HTML templates version](/assets/image-v1.png)
 
 
 ## Version 0.02
@@ -40,4 +40,4 @@ An amazing to-do web app in Rust using Actix Framework!
 
 - `http://localhost:5173/`
 
-![alt text](image-v2.png)
+![alt text](/assets/image-v2.png)

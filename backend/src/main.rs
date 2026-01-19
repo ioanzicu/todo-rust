@@ -1,13 +1,18 @@
-use log::info;
+#[macro_use]
+extern crate diesel;
+extern crate dotenv;
 
 use actix_cors::Cors;
 use actix_service::Service;
 use actix_web::{App, HttpServer};
+use log::info;
 
+mod config;
+mod database;
 mod json_serialization;
 mod jwt;
-mod processes;
-mod state;
+mod models;
+mod schema;
 mod to_do;
 mod views;
 
