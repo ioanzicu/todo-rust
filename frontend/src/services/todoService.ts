@@ -1,4 +1,5 @@
-// Using the interfaces we defined earlier
+import apiRequest from './apiClient';
+
 export interface TodoItem {
   title: string;
   status: 'PENDING' | 'DONE';
@@ -11,25 +12,24 @@ export interface TodoResponse {
   done_item_count: number;
 }
 
-const API_URL = import.meta.env.VITE_API_URL;
-const TOKEN = import.meta.env.VITE_API_TOKEN;
+/**
+ * Get all items
+ */
+export const getTodos = () => 
+  apiRequest<TodoResponse>('/v1/item/get', 'GET');
 
 /**
- * Fetches all todos and counts from the server
+ * Update or Delete an item
+ * @param action - "edit" or "delete"
+ * @param title - The title of the task
+ * @param nextStatus - The status to set
  */
-export const getTodos = async (): Promise<TodoResponse> => {
-  const response = await fetch(`${API_URL}/v1/item/get`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'token': TOKEN 
-    }
+export const updateTodoStatus = (action: 'edit' | 'delete', title: string, nextStatus: 'PENDING' | 'DONE') => 
+  apiRequest<any>(`/v1/item/${action}`, 'POST', { 
+    title, 
+    status: nextStatus 
   });
 
-  if (!response.ok) {
-    // We throw the error so the component can catch it and show a UI message
-    throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
-  }
 
-  return response.json();
-};
+export const createTodo = (title: string) => 
+  apiRequest<any>(`/v1/item/create/${encodeURIComponent(title)}`, 'POST', {});
