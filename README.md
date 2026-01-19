@@ -26,7 +26,7 @@ An amazing to-do web app in Rust using Actix Framework!
     ```
 
 
-## Version 0.01 
+## Version 0.01 - WEB 1.0 Static HTML
 ### SSR static HTML templates with CSS and JS injection on server side.
 
 - `http://127.0.0.1:8000/`
@@ -35,9 +35,30 @@ An amazing to-do web app in Rust using Actix Framework!
 ![HTML templates version](/assets/image-v1.png)
 
 
-## Version 0.02
-### React based UI
+## Version 0.02 - WEB 2.0 Dynamic HTML
+### React UI
+
+```bash
+make react-dev
+```
+
 
 - `http://localhost:5173/`
 
 ![alt text](/assets/image-v2.png)
+
+## Version 0.03 - DESKTOP
+### Electron UI
+
+```bash
+make electron-dev
+```
+
+OR
+
+```bash
+make electron-prod
+```
+
+
+![alt text](/assets/image-v3.png)
