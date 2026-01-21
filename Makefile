@@ -17,3 +17,30 @@ down:
 
 # Start and wait
 start: up wait
+
+
+###################################
+# 			FRONTEND			  #
+###################################
+
+backend-up:
+	cd backend/ && cargo run
+
+react-dev:
+	cd frontend/ && npm run dev
+
+
+electron-dev:
+	cd backend && cargo run &     # background
+	cd frontend && npm run dev &  # background
+	sleep 1
+	cd frontend && npm run electron:dev
+
+
+electron-prod: backend-up
+	cd backend && cargo run &     # background
+	cd frontend && npm run dev &  # background
+	sleep 1
+	cd frontend && npm run electron:prod
+
+
