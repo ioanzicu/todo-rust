@@ -10,7 +10,7 @@ use diesel::prelude::*;
 use log::info;
 
 pub async fn edit(to_do_item: web::Json<ToDoItem>, token: JwToken) -> HttpResponse {
-    info!("JWT token message: {}", token.message);
+    info!("JWT token message: {:?}", token);
 
     let mut connection = establish_connection();
     let resuts = to_do::table.filter(to_do::columns::title.eq(&to_do_item.title));
