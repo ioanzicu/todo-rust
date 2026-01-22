@@ -2,11 +2,11 @@ use crate::database::establish_connection;
 use crate::diesel;
 use crate::models::item::item::Item;
 use crate::schema::to_do;
-use crate::to_do::ItemTypes;
 use crate::to_do::structs::base::Base;
+use crate::to_do::ItemTypes;
 use crate::to_do::{enums::TaskStatus, to_do_factory};
 
-use actix_web::{HttpRequest, HttpResponse, Responder, body::BoxBody, http::header::ContentType};
+use actix_web::{body::BoxBody, http::header::ContentType, HttpRequest, HttpResponse, Responder};
 use diesel::prelude::*;
 use serde::Serialize;
 
@@ -42,7 +42,7 @@ impl ToDoItems {
     }
 
     pub fn get_state() -> ToDoItems {
-        let mut connection: PgConnection = establish_connection();
+        let mut connection = establish_connection();
         let mut array_buffer: Vec<ItemTypes> = Vec::new();
 
         let items: Vec<Item> = to_do::table

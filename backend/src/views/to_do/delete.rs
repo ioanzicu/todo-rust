@@ -8,7 +8,7 @@ use actix_web::{HttpResponse, web};
 use diesel::prelude::*;
 
 pub async fn delete(to_do_item: web::Json<ToDoItem>, token: JwToken) -> HttpResponse {
-    let mut connection: PgConnection = establish_connection();
+    let mut connection = establish_connection();
 
     let items: Vec<Item> = to_do::table
         .filter(to_do::columns::title.eq(&to_do_item.title.as_str()))
