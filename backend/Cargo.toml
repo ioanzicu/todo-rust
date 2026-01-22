@@ -7,6 +7,7 @@ edition = "2024"
 actix-cors = "0.7.1"
 actix-service = "2.0.3"
 actix-web = "4.12.1"
+bcrypt = "0.18.0"
 chrono = "0.4.43"
 diesel = { version = "2.3.5", features = ["postgres", "chrono", "r2d2"] }
 dotenv = "0.15.0"
@@ -16,3 +17,4 @@ log = "0.4.29"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"
 serde_yaml = "0.9.34"
+uuid = { version = "1.19.0", features = ["serde", "v4"] }
