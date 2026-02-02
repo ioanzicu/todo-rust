@@ -43,4 +43,7 @@ electron-prod: backend-up
 	sleep 1
 	cd frontend && npm run electron:prod
 
+# BACKEND
 
+cargo-run: 
+	cd backend && cargo run config.yml  
