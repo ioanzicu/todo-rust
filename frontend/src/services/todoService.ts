@@ -15,21 +15,25 @@ export interface TodoResponse {
 /**
  * Get all items
  */
-export const getTodos = () => 
-  apiRequest<TodoResponse>('/v1/item/get', 'GET');
-
+export const getTodos = () => {
+  const token = localStorage.getItem('authToken');
+  return apiRequest<TodoResponse>('/v1/item/get', 'GET', null, token);
+}
 /**
  * Update or Delete an item
  * @param action - "edit" or "delete"
  * @param title - The title of the task
  * @param nextStatus - The status to set
  */
-export const updateTodoStatus = (action: 'edit' | 'delete', title: string, nextStatus: 'PENDING' | 'DONE') => 
-  apiRequest<any>(`/v1/item/${action}`, 'POST', { 
-    title, 
-    status: nextStatus 
-  });
+export const updateTodoStatus = (action: 'edit' | 'delete', title: string, nextStatus: 'PENDING' | 'DONE') => {
+  const token = localStorage.getItem('authToken');
+  return apiRequest<any>(`/v1/item/${action}`, 'POST', {
+    title,
+    status: nextStatus
+  }, token);
+}
 
-
-export const createTodo = (title: string) => 
-  apiRequest<any>(`/v1/item/create/${encodeURIComponent(title)}`, 'POST', {});
+export const createTodo = (title: string) => {
+  const token = localStorage.getItem('authToken');
+  apiRequest<any>(`/v1/item/create/${encodeURIComponent(title)}`, 'POST', {}, token);
+}
