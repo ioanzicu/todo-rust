@@ -51,7 +51,7 @@ const TodoApp: React.FC<TodoAppProps> = ({ onLogout }) => {
 
           <div className="stats-container">
             <p>Completed: <span id="completeNum">{data?.done_item_count ?? 0}</span></p>
-            <p>Pending: <span id="pendingNum">{data?.pending_items_count ?? 0}</span></p>
+            <p>Pending: <span id="pendingNum">{data?.pending_item_count ?? 0}</span></p>
           </div>
 
         </div>

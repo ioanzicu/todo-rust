@@ -8,7 +8,7 @@ export interface TodoItem {
 export interface TodoResponse {
   pending_items: TodoItem[];
   done_items: TodoItem[];
-  pending_items_count: number;
+  pending_item_count: number;
   done_item_count: number;
 }
 
