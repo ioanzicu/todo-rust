@@ -4,10 +4,12 @@ extern crate dotenv;
 
 use actix_cors::Cors;
 use actix_service::Service;
-use actix_web::{App, HttpServer};
+use actix_web::{App, HttpResponse, HttpServer};
+use futures::future::{Either, ok};
 use log::info;
 
 mod config;
+mod counter;
 mod database;
 mod json_serialization;
 mod jwt;
@@ -20,6 +22,10 @@ mod views;
 async fn main() -> std::io::Result<()> {
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
 
+    const ALLOWED_VERSION: &'static str = include_str!("./output_data.txt");
+    let site_counter = counter::Counter { count: 0 };
+    site_counter.save();
+
     HttpServer::new(|| {
         let cors = Cors::default()
             .allow_any_origin()
@@ -30,9 +36,31 @@ async fn main() -> std::io::Result<()> {
             .wrap_fn(|req, srv| {
                 info!("{:?}", req);
 
-                let future = srv.call(req);
-                async {
-                    let result = future.await?;
+                let passed: bool;
+
+                let mut site_counter = counter::Counter::load().unwrap();
+                site_counter.count += 1;
+                println!("{:?}", &site_counter);
+                site_counter.save();
+
+                if *&req.path().contains(&format!("/{}/", ALLOWED_VERSION)) {
+                    passed = true;
+                } else {
+                    passed = false;
+                }
+
+                let end_result = match passed {
+                    true => Either::Left(srv.call(req)),
+                    false => {
+                        let resp = HttpResponse::NotImplemented()
+                            .body(format!("only {} API is supported", ALLOWED_VERSION));
+
+                        Either::Right(ok(req.into_response(resp).map_into_boxed_body()))
+                    }
+                };
+
+                async move {
+                    let result = end_result.await?;
                     Ok(result)
                 }
             })
