@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
-import LoginForm from './components/LoginForm/LoginForm';
+import LoginForm from './components/LogInForm/LogInForm';
+import SignInForm from './components/SignInForm/SignInForm';
 import TodoApp from './TodoApp';
 
 const App = () => {
@@ -29,7 +30,9 @@ const App = () => {
   if (!isLoggedIn) {
     return (
       <div className="app-container">
+        <SignInForm passBackResponse={handleLoginResponse} />
         <LoginForm passBackResponse={handleLoginResponse} />
+
       </div>
     );
   }

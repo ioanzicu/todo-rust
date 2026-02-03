@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
-import { setAuthToken } from '../../services/apiClient';
-import { logIn } from '../../services/loginService';
-import './LoginForm.css';
+import { signIn } from '../../services/signinService';
+import './SignInForm.css';
 
-interface LogInProps {
+interface SignInForm {
     passBackResponse: (response: any) => void;
 }
 
-const LoginForm: React.FC<LogInProps> = ({ passBackResponse }) => {
+const SignInForm: React.FC<SignInForm> = ({ passBackResponse }) => {
     const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!username.trim()) {
             alert("Please enter a username");
+            return;
+        }
+
+        if (!email.trim()) {
+            alert("Please enter an email");
             return;
         }
 
@@ -25,32 +30,19 @@ const LoginForm: React.FC<LogInProps> = ({ passBackResponse }) => {
         }
 
         try {
-            const data = await logIn(username, password);
+            const data = await signIn(username, email, password);
 
             setUsername("");
+            setEmail("");
             setPassword("");
 
             console.log("DATA", data);
 
-            // TODO: refactor
-            let responseData = data;
-            if (typeof data === 'string') {
-                try {
-                    responseData = JSON.parse(data);
-                    console.log("Parsed data:", responseData);
-
-                    setAuthToken(responseData.data);
-                } catch (error) {
-                    console.error("Failed to parse response as JSON:", error);
-                    return;
-                }
-            }
-
-            passBackResponse(responseData);
+            passBackResponse(data);
         } catch (error) {
-            console.error("Failed to create item:", error);
+            console.error("Failed to create uer:", error);
 
-            alert("Login failed. Please check your credentials.");
+            alert("Signin failed. Please check your credentials.");
         }
     };
 
@@ -58,14 +50,18 @@ const LoginForm: React.FC<LogInProps> = ({ passBackResponse }) => {
         setUsername(e.target.value);
     };
 
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    };
+
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
 
     return (
-        <form className="login" onSubmit={submitLogin}>
+        <form className="login" onSubmit={submit}>
 
-            <h1 className='login-title'>Log In</h1>
+            <h1 className='login-title'>Sign In</h1>
 
             <div className='form-group'>
 
@@ -78,6 +74,20 @@ const LoginForm: React.FC<LogInProps> = ({ passBackResponse }) => {
                     value={username}
                     className="login-input"
                     onChange={handleUsernameChange}
+                />
+            </div>
+
+            <div className='form-group'>
+
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email"
+                    autoFocus
+                    value={email}
+                    className="login-input"
+                    onChange={handleEmailChange}
                 />
             </div>
 
@@ -99,11 +109,11 @@ const LoginForm: React.FC<LogInProps> = ({ passBackResponse }) => {
                 type="submit"
                 className="login-button"
             >
-                Log In
+                Sign In
             </button>
 
         </form>
     );
 };
 
-export default LoginForm;
+export default SignInForm;
