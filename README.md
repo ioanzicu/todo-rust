@@ -1,6 +1,20 @@
 # Oh My Gorgeous Todo APP in Rust
 
-An amazing to-do web app in Rust using Actix Framework!
+### 🛠 Project Stack
+
+#### 🦀 **Backend**
+* [Rust](https://rust-lang.org/) — High-performance, memory-safe systems programming.
+* [Diesel](https://diesel.rs/) — Safe, extensible ORM and Query Builder.
+* [Postgres](https://www.postgresql.org/) — Robust relational database for data integrity.
+
+---
+
+#### 🖥️ **Frontend**
+* [React](https://react.dev/) — Declarative UI components.
+* [Electron](https://www.electronjs.org/) — Cross-platform desktop application framework.
+
+
+## An amazing to-do web app in Rust using Actix Framework!
 
 
 - `/backend/`
@@ -20,11 +34,17 @@ An amazing to-do web app in Rust using Actix Framework!
     cd frontend
     ```
 
+    - React
 
-    ```bash
-    npx run dev
-    ```
+        ```bash
+        npx run dev
+        ```
 
+    - Electron
+
+        ```bash
+        npx electron:dev
+        ```
 
 ## Version 0.01 - WEB 1.0 Static HTML
 ### SSR static HTML templates with CSS and JS injection on server side.

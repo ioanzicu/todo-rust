@@ -1,0 +1,240 @@
+/* Login Form Styles */
+.login {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background-color: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-title {
+    font-size: 2.4em;
+    line-height: 1.1;
+    text-align: center;
+    margin: 0 0 0.5rem 0;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.login-input {
+    width: 100%;
+    padding: 0.8em 1em;
+    font-size: 1em;
+    font-family: inherit;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(20, 20, 20, 0.8);
+    color: rgba(255, 255, 255, 0.95);
+    transition: border-color 0.25s, box-shadow 0.25s;
+    box-sizing: border-box;
+}
+
+.login-input:focus {
+    outline: none;
+    border-color: #646cff;
+    box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.2);
+}
+
+.login-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.login-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.login-button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.8em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: all 0.25s;
+    color: rgba(255, 255, 255, 0.95);
+    margin-top: 0.5rem;
+}
+
+.login-button:hover {
+    border-color: #646cff;
+    background-color: rgba(100, 108, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(100, 108, 255, 0.2);
+}
+
+.login-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(100, 108, 255, 0.2);
+}
+
+.login-button:focus,
+.login-button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+    outline-offset: 2px;
+}
+
+.login-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.error-message {
+    background-color: rgba(255, 59, 48, 0.1);
+    border: 1px solid rgba(255, 59, 48, 0.3);
+    color: #ff3b30;
+    padding: 0.8em 1em;
+    border-radius: 8px;
+    font-size: 0.9em;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.success-message {
+    background-color: rgba(52, 199, 89, 0.1);
+    border: 1px solid rgba(52, 199, 89, 0.3);
+    color: #34c759;
+    padding: 0.8em 1em;
+    border-radius: 8px;
+    font-size: 0.9em;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading spinner for button */
+.login-button:disabled::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Light mode adjustments */
+@media (prefers-color-scheme: light) {
+    .login {
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: #213547;
+    }
+
+    .login-title {
+        color: #213547;
+    }
+
+    .login-input {
+        background-color: rgba(249, 249, 249, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        color: #213547;
+    }
+
+    .login-input::placeholder {
+        color: rgba(33, 53, 71, 0.6);
+    }
+
+    .login-input:focus {
+        border-color: #747bff;
+        box-shadow: 0 0 0 3px rgba(116, 123, 255, 0.2);
+    }
+
+    .login-button {
+        background-color: #f9f9f9;
+        color: #213547;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .login-button:hover {
+        background-color: #747bff;
+        color: white;
+        border-color: #747bff;
+    }
+
+    .error-message {
+        background-color: rgba(255, 59, 48, 0.08);
+        border-color: rgba(255, 59, 48, 0.2);
+    }
+
+    .success-message {
+        background-color: rgba(52, 199, 89, 0.08);
+        border-color: rgba(52, 199, 89, 0.2);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .login {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .login-title {
+        font-size: 2em;
+    }
+
+    .login-input,
+    .login-button {
+        padding: 0.7em 1em;
+    }
+}
+
+/* Add these to your existing body styles if needed */
+body.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
