@@ -13,6 +13,12 @@
 * [React](https://react.dev/) — Declarative UI components.
 * [Electron](https://www.electronjs.org/) — Cross-platform desktop application framework.
 
+#### **Tools** 
+- newman
+- postman
+- docker 
+- postgres
+- redis
 
 ## An amazing to-do web app in Rust using Actix Framework!
 

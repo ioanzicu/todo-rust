@@ -1,0 +1,678 @@
+{
+  "info": {
+    "_postman_id": "ba730b28-1044-42bc-a89b-a8cfa627325e",
+    "name": "Rust Web ToDo",
+    "description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8727955"
+  },
+  "item": [
+    {
+      "name": "Item",
+      "item": [
+        {
+          "name": "Item",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var result = pm.response.json()",
+                  "",
+                  "pm.test(\"response is ok\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"returns one pending item\", function(){",
+                  "    if (result[\"pending_items\"].length !== 1){ ",
+                  "        throw new Error(\"returns the wrong number of pending items\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"Pending item has the correct title\", function(){",
+                  "    if (result[\"pending_items\"][0][\"title\"] !== \"washing\"){",
+                  "        throw new Error(\"title of the pending item is not 'washing'\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"Pending item has the correct status\", function() {",
+                  "    if (result[\"pending_items\"][0][\"status\"] !== \"PENDING\"){",
+                  "        throw new Error(\"status of the pending item is not 'pending'\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"returns zero done items\", function(){",
+                  "    if (result[\"done_items\"].length !== 0){",
+                  "        throw new Error(\"returns the wrong number of done items\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"checking pending item count\", function(){",
+                  "    if (result[\"pending_item_count\"] !== 1){",
+                  "        throw new Error(\"pending_item_count needs to be one\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"checking done item count\", function(){",
+                  "    if (result[\"done_item_count\"] !== 0){",
+                  "        throw new Error(\"done_item_count needs to be zero\");",
+                  "    }",
+                  "})",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}item/get",
+              "host": [
+                "{{base_url}}item"
+              ],
+              "path": [
+                "get"
+              ]
+            },
+            "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+          },
+          "response": [
+            {
+              "name": "Item",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}item/get",
+                  "host": [
+                    "{{base_url}}item"
+                  ],
+                  "path": [
+                    "get"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "content-length",
+                  "value": "153"
+                },
+                {
+                  "key": "vary",
+                  "value": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 03 Feb 2026 19:55:31 GMT"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"pending_items\": [\n        {\n            \"title\": \"learn rust\",\n            \"status\": \"PENDING\"\n        }\n    ],\n    \"done_items\": [\n        {\n            \"title\": \"wdaa\",\n            \"status\": \"DONE\"\n        }\n    ],\n    \"pending_items_count\": 1,\n    \"done_item_count\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Washing",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var result = pm.response.json()",
+                  "",
+                  "pm.test(\"response is ok\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"returns one pending item\", function(){",
+                  "    if (result[\"pending_items\"].length !== 1){ ",
+                  "        throw new Error(\"returns the wrong number of pending items\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"Pending item has the correct title\", function(){",
+                  "    if (result[\"pending_items\"][0][\"title\"] !== \"washing\"){",
+                  "        throw new Error(\"title of the pending item is not 'washing'\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"Pending item has the correct status\", function() {",
+                  "    if (result[\"pending_items\"][0][\"status\"] !== \"PENDING\"){",
+                  "        throw new Error(\"status of the pending item is not 'pending'\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"returns zero done items\", function(){",
+                  "    if (result[\"done_items\"].length !== 0){",
+                  "        throw new Error(\"returns the wrong number of done items\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"checking pending item count\", function(){",
+                  "    if (result[\"pending_item_count\"] !== 1){",
+                  "        throw new Error(\"pending_item_count needs to be one\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"checking done item count\", function(){",
+                  "    if (result[\"done_item_count\"] !== 0){",
+                  "        throw new Error(\"done_item_count needs to be zero\");",
+                  "    }",
+                  "})",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}item/create/washing",
+              "host": [
+                "{{base_url}}item"
+              ],
+              "path": [
+                "create",
+                "washing"
+              ]
+            },
+            "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+          },
+          "response": [
+            {
+              "name": "Create Item",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}item/create/cooking",
+                  "host": [
+                    "{{base_url}}item"
+                  ],
+                  "path": [
+                    "create",
+                    "cooking"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "content-length",
+                  "value": "192"
+                },
+                {
+                  "key": "vary",
+                  "value": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 03 Feb 2026 20:17:34 GMT"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"pending_items\": [\n        {\n            \"title\": \"learn rust\",\n            \"status\": \"PENDING\"\n        },\n        {\n            \"title\": \"cooking\",\n            \"status\": \"PENDING\"\n        }\n    ],\n    \"done_items\": [\n        {\n            \"title\": \"wdaa\",\n            \"status\": \"DONE\"\n        }\n    ],\n    \"pending_items_count\": 2,\n    \"done_item_count\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Cooking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var result = pm.response.json()",
+                  "",
+                  "pm.test(\"response is ok\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"returns two pending item\", function(){",
+                  "    if (result[\"pending_items\"].length !== 2){",
+                  "        throw new Error(\"returns the wrong number of pending items\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"Pending item has the correct title\", function(){",
+                  "    if (result[\"pending_items\"][0][\"title\"] !== \"washing\"){",
+                  "        throw new Error(\"title of the pending item is not 'washing'\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"Pending item has the correct status\", function(){",
+                  "    if (result[\"pending_items\"][0][\"status\"] !== \"PENDING\"){",
+                  "        throw new Error(\"status of the pending item is not 'pending'\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"Pending item has the correct title\", function(){",
+                  "    if (result[\"pending_items\"][1][\"title\"] !== \"cooking\"){",
+                  "        throw new Error(\"title of the pending item is not 'cooking'\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"Pending item has the correct status\", function(){",
+                  "    if (result[\"pending_items\"][1][\"status\"] !== \"PENDING\"){",
+                  "        throw new Error(\"status of the pending item is not 'pending'\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"returns zero done items\", function(){",
+                  "    if (result[\"done_items\"].length !== 0){",
+                  "        throw new Error(\"returns the wrong number of done items\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"checking pending item count\", function(){",
+                  "    if (result[\"pending_item_count\"] === 1){",
+                  "        throw new Error(\"pending_item_count needs to be one\");",
+                  "    }",
+                  "})",
+                  "",
+                  "pm.test(\"checking done item count\", function(){",
+                  "    if (result[\"done_item_count\"] !== 0){",
+                  "        throw new Error(\"done_item_count needs to be zero\");",
+                  "    }",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}item/create/cooking",
+              "host": [
+                "{{base_url}}item"
+              ],
+              "path": [
+                "create",
+                "cooking"
+              ]
+            },
+            "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+          },
+          "response": [
+            {
+              "name": "Create Item",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}item/create/cooking",
+                  "host": [
+                    "{{base_url}}item"
+                  ],
+                  "path": [
+                    "create",
+                    "cooking"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "content-length",
+                  "value": "192"
+                },
+                {
+                  "key": "vary",
+                  "value": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 03 Feb 2026 20:17:34 GMT"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"pending_items\": [\n        {\n            \"title\": \"learn rust\",\n            \"status\": \"PENDING\"\n        },\n        {\n            \"title\": \"cooking\",\n            \"status\": \"PENDING\"\n        }\n    ],\n    \"done_items\": [\n        {\n            \"title\": \"wdaa\",\n            \"status\": \"DONE\"\n        }\n    ],\n    \"pending_items_count\": 2,\n    \"done_item_count\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Edit Item",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Successful PUT request\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "\"ALELUIS\"",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"title\": \"fix-playwritgh\",\n    \"status\": \"PENDING\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}item/edit",
+              "host": [
+                "{{base_url}}item"
+              ],
+              "path": [
+                "edit"
+              ]
+            },
+            "description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+          },
+          "response": [
+            {
+              "name": "Update",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"title\": \"fix-playwritgh\",\n    \"status\": \"DONE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/edit",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "edit"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "content-length",
+                  "value": "122"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "date",
+                  "value": "Thu, 15 Jan 2026 19:51:11 GMT"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"pending_items\": [],\n    \"done_items\": [\n        {\n            \"title\": \"fix-playwritgh\",\n            \"status\": \"DONE\"\n        }\n    ],\n    \"pending_items_count\": 0,\n    \"done_item_count\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Item",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Successful DELETE request\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"cooking\",\n    \"status\": \"PENDING\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}item/delete",
+              "host": [
+                "{{base_url}}item"
+              ],
+              "path": [
+                "delete"
+              ]
+            },
+            "description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "apikey",
+        "apikey": [
+          {
+            "key": "value",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE3NzAxNTU1Nzd9.RhmEcb7g5AZlzxtmJ716MQ2Lck2MycUDZ6GfTVuNRLk",
+            "type": "string"
+          },
+          {
+            "key": "key",
+            "value": "token",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"ioan\",\n    \"email\": \"test@email.com\",\n    \"password\": \"ohmypass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}user/create",
+              "host": [
+                "{{base_url}}user"
+              ],
+              "path": [
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"ioan\",\n    \"password\": \"ohmypass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}auth/login",
+              "host": [
+                "{{base_url}}auth"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "id",
+      "value": "1"
+    },
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000/v1/"
+    }
+  ]
+}

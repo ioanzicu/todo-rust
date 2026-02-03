@@ -60,13 +60,13 @@ function getItems() {
   const call = apiCall("/v1/item/get", "GET", data => {
     renderItems(data.pending_items, "edit", "pendingItems", editItem);
     renderItems(data.done_items, "delete", "doneItems", deleteItem);
- 
+
     // Update Header Stat
     document.getElementById("completeNum").innerHTML =
-        data.done_item_count;
-    
+      data.done_item_count;
+
     document.getElementById("pendingNum").innerHTML =
-        data.pending_items_count;
+      data.pending_item_count;
   });
 
   call.send();

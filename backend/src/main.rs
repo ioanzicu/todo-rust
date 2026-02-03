@@ -4,10 +4,11 @@ extern crate dotenv;
 
 use actix_cors::Cors;
 use actix_service::Service;
-use actix_web::{App, HttpServer};
-use log::info;
+use actix_web::{App, HttpResponse, HttpServer, middleware::Logger};
+use futures::future::{Either, ok};
 
 mod config;
+mod counter;
 mod database;
 mod json_serialization;
 mod jwt;
@@ -18,7 +19,11 @@ mod views;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
+    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+
+    const ALLOWED_VERSION: &'static str = include_str!("./output_data.txt");
+    let site_counter = counter::Counter { count: 0 };
+    let _ = site_counter.save();
 
     HttpServer::new(|| {
         let cors = Cors::default()
@@ -28,16 +33,37 @@ async fn main() -> std::io::Result<()> {
 
         let app = App::new()
             .wrap_fn(|req, srv| {
-                info!("{:?}", req);
+                let passed: bool;
 
-                let future = srv.call(req);
-                async {
-                    let result = future.await?;
+                let mut site_counter = counter::Counter::load().unwrap();
+                site_counter.count += 1;
+                println!("{:?}", &site_counter);
+                let _ = site_counter.save();
+
+                if *&req.path().contains(&format!("/{}/", ALLOWED_VERSION)) {
+                    passed = true;
+                } else {
+                    passed = false;
+                }
+
+                let end_result = match passed {
+                    true => Either::Left(srv.call(req)),
+                    false => {
+                        let resp = HttpResponse::NotImplemented()
+                            .body(format!("only {} API is supported", ALLOWED_VERSION));
+
+                        Either::Right(ok(req.into_response(resp).map_into_boxed_body()))
+                    }
+                };
+
+                async move {
+                    let result = end_result.await?;
                     Ok(result)
                 }
             })
             .configure(views::views_factory)
-            .wrap(cors);
+            .wrap(cors)
+            .wrap(Logger::new("%a %{User-Agent}i %r %r %D"));
 
         app
     })
