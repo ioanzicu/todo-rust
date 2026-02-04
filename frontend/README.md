@@ -71,3 +71,13 @@ export default defineConfig([
   },
 ])
 ```
+
+# Docker
+
+```
+docker build . -t front_end
+```
+
+```
+docker run -p 80:4000 front_end
+```

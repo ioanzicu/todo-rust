@@ -1,0 +1,6 @@
+DB_URL: postgres://postgres:postgres@postgres_production:5432/to_do  
+SECRET_KEY: your-secret-key
+EXPIRE_MINUTES: 120
+REDIS_URL: redis://redis_production:6379/ 
+HOST: 0.0.0.0
+PORT: 8000

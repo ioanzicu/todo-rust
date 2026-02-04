@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { setAuthToken } from '../../services/apiClient';
 import { logIn } from '../../services/loginService';
 import './LoginForm.css';
 
@@ -38,8 +37,6 @@ const LoginForm: React.FC<LogInProps> = ({ passBackResponse }) => {
                 try {
                     responseData = JSON.parse(data);
                     console.log("Parsed data:", responseData);
-
-                    setAuthToken(responseData.data);
                 } catch (error) {
                     console.error("Failed to parse response as JSON:", error);
                     return;
