@@ -1,5 +1,18 @@
 services:
-  postgres:
+  nginx:
+    container_name: "nginx-rust"
+    image: "nginx:latest"
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - rust_app
+      - front_end
+    volumes:
+      - ./nginx_config.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl/self.crt:/etc/nginx/ssl/self.crt
+      - ./nginx/ssl/self.key:/etc/nginx/ssl/self.key
+  postgres_production:
     container_name: "to_do_db"
     image: "postgres:18"
     restart: always
@@ -16,8 +29,54 @@ services:
       retries: 5
       start_period: 10s
 
-  redis:
+  redis_production:
     container_name: "to_do_redis"
     image: "redis:8.2.3"
     ports:
       - "6379:6379"
+    volumes:
+      - ./data/redis:/tmp
+
+  rust_app:
+    container_name: rust_app
+    build: "./backend"
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres_production:
+        condition: service_healthy
+    volumes:
+      - ./rust_config.yml:/app/config.yml
+      - ./backend/migrations:/app/migrations
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres_production:5432/to_do
+    command: >
+      sh -c "
+        # Wait for database
+        while ! diesel database setup; do
+          sleep 2
+        done
+        # Run migrations
+        diesel migration run
+        # Start app
+        ./web_app config.yml
+      "
+
+  front_end:
+    build: "./frontend"
+    restart: always
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:4000",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

@@ -21,7 +21,9 @@ mod views;
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
-    const ALLOWED_VERSION: &'static str = include_str!("./output_data.txt");
+    const ALLOWED_VERSION: &'static str = "v1";
+    // const ALLOWED_VERSION: &'static str = include_str!("./output_data.txt");
+
     let site_counter = counter::Counter { count: 0 };
     let _ = site_counter.save();
 
@@ -67,7 +69,7 @@ async fn main() -> std::io::Result<()> {
 
         app
     })
-    .bind("127.0.0.1:8000")?
+    .bind("0.0.0.0:8000")?
     .workers(3)
     .run()
     .await

@@ -1,15 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-let authToken: string | null = null;
-
-export const setAuthToken = (token: string) => {
-  authToken = token;
-}
-
-export const clearAuthToken = () => {
-  authToken = null
-}
-
 async function apiRequest<T>(endpoint: string, method: string, body?: any, token?: string | null): Promise<T> {
 
   const headers: HeadersInit = {

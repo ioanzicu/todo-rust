@@ -55,8 +55,8 @@
 ## Version 0.01 - WEB 1.0 Static HTML
 ### SSR static HTML templates with CSS and JS injection on server side.
 
-- `http://127.0.0.1:8000/`
-- `http://127.0.0.1:8000/v1/item/get`
+- `http://0.0.0.0:8000/`
+- `http://0.0.0.0:8000/v1/item/get`
 
 ![HTML templates version](/assets/image-v1.png)
 
