@@ -43,7 +43,32 @@ electron-prod: backend-up
 	sleep 1
 	cd frontend && npm run electron:prod
 
-# BACKEND
+
+###################################
+# 			 BACKEND			  #
+###################################
 
 cargo-run: 
 	cd backend && cargo run config.yml  
+
+
+
+###################################
+# 			    SSL 			  #
+###################################
+
+.PHONY: certs clean-certs ssl
+
+# Generate SSL certificates using script
+certs: ssl
+
+ssl:
+	@chmod +x scripts/generate_certs.sh
+	@echo "Generating SSL certificates..."
+	@./scripts/generate_certs.sh
+
+# Clean certificates
+clean-certs:
+	@echo "Cleaning SSL certificates..."
+	@rm -rf nginx/ssl
+	@echo "Certificates cleaned"
